@@ -3,7 +3,7 @@
 
 # Simple-Bash
 
-<img src="https://user-images.githubusercontent.com/22789194/27638089-8577f882-5c01-11e7-9063-ac7069f27d72.png" height="250px" width="250px">
+<img src="https://user-images.githubusercontent.com/22789194/27638089-8577f882-5c01-11e7-9063-ac7069f27d72.png" height="150px" width="250px">
 
 A bash script which incoporates a dictionary in the terminal using an online API
 
