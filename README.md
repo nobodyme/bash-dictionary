@@ -3,6 +3,8 @@
 
 # Simple-Bash
 
+<img src="https://user-images.githubusercontent.com/22789194/27638089-8577f882-5c01-11e7-9063-ac7069f27d72.png" height="300px" width="300px">
+
 A bash script which incoporates a dictionary in the terminal using an online API
 
 ![screenshot of the image](https://github.com/nobodyme/simple-bash/blob/master/meaning.png)
