@@ -1,7 +1,13 @@
+
+<div align="center">
+
 # Simple-Bash
 
 A bash script which incoporates a dictionary in the terminal using an online API
 
+![screenshot of the image](https://github.com/nobodyme/simple-bash/blob/master/meaning.png)
+
+</div>
 
 ## API Used
 
