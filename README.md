@@ -1,11 +1,15 @@
 # Simple-Bash
 A bash script which incoporates a dictionary in the terminal using an online API
 
-## API's Used
+## API Used
 
- - To get meaning and examples of the typed word: [pearson.com](http://developer.pearson.com/apis/dictionaries#/)
+To get meaning and examples of the typed word: [pearson.com](http://developer.pearson.com/apis/dictionaries#/)
 
 Inspired by: [Bash-Snippets](https://github.com/alexanderepstein/Bash-Snippets/blob/master/README.md)
+
+## Dependencies
+
+`jq` must be installed for json parsing from the api.
 
 ## Installing
 
