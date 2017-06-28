@@ -7,9 +7,17 @@
 
 A bash script which incoporates a dictionary in the terminal using an online API
 
+</div>
+
+## Dictionary
+
+Pass in the word as argument and it will give you the corresponding meaning with an example if available
+
+<div align="center">
+
 ![screenshot of the image](https://github.com/nobodyme/simple-bash/blob/master/meaning.png)
 
-</div>
+<div align="center">
 
 ## API Used
 
