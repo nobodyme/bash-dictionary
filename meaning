@@ -14,41 +14,51 @@ checkInternet()
   fi
 }
 
- checkInternet || exit 1 #if no connection exit
-
- getword=$1+$2+$3 #get 3 parameter as input
- wordresults=$(curl -sX GET --header "Accept: application/json" "http://api.pearson.com/v2/dictionaries/entries?headword=$getword") > /dev/null 2>&1 #fetch results for input word
- count=$(echo $wordresults | jq '.count')
- worddef=null;
- trans=1;
- 
- if [ $count -gt 0 ]; then #check count of results greater than zero to traverse
-    i=0;
-    while [ "$worddef" == null ] && [ "$i" -le "$count" ]; do #iterate till the word is found
- 	 	trans=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[]| select(.translations!=null) |.translations[].text')
-    	if [ "$trans" == "" ] || [ "$trans" == 1 ]; then #fetch word when translation is not found
- 			worddef=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[].definition') #get meaning of the word
-        fi
-    ((i++))
- 	done
-    ((i--))
- 	wordexample=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[]| select(.examples != null) |.examples[].text') #get corresponding examples with "$i" if exists
-fi
- 
- if [ ! -z "$worddef" ]; then
-	echo
- 	echo '================================================================'
- 	echo "| Definition: $worddef"
-
- 	if [ ! -z "$wordexample" ]; then #check if the variable is set and not empty
- 		echo "| Example   : $wordexample"
- 	else
- 		echo "| Example   : No example found"
-
- echo '================================================================'
- echo
+fetchword()
+{
+	i=0;
+	while [ "$worddef" == null ] && [ "$i" -le "$count" ]; do #iterate till the word is found
+		trans=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[]| select(.translations!=null) |.translations[].text')
+	if [ "$trans" == "" ] || [ "$trans" == 1 ]; then #fetch word when translation is not found
+		worddef=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[].definition') #get meaning of the word
 	fi
+	((i++))
+	done
+	((i--))
+	wordexample=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[]| select(.examples != null) |.examples[].text') #get corresponding examples with "$i" if exists
+}
+
+printmeaning()
+{
+	if [ ! -z "$worddef" ]; then
+		echo
+	 	echo '================================================================'
+	 	echo "| Definition: $worddef"
+
+	 	if [ ! -z "$wordexample" ]; then #check if the variable is set and not empty
+	 		echo "| Example   : $wordexample"
+	 	else
+	 		echo "| Example   : No example found"
+		fi
+		echo '================================================================'
+	 	echo
+	else
+		echo "Word-not-found"
+	fi
+ }
+
+
+checkInternet || exit 1 #if no connection exit
+
+getword=$1+$2+$3 #get 3 parameter as input
+wordresults=$(curl -sX GET --header "Accept: application/json" "http://api.pearson.com/v2/dictionaries/entries?headword=$getword") > /dev/null 2>&1 #fetch results for input word
+count=$(echo $wordresults | jq '.count')
+worddef=null;
+trans=1;
+
+if [ "$count" -gt 0 ]; then #check count of results greater than zero to traverse
+	fetchword
+	printmeaning
 else
-	echo "Word not found"
+	echo "Word-not-found"
 fi
- 
