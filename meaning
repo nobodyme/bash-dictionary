@@ -25,28 +25,30 @@ checkInternet()
  if [ $count -gt 0 ]; then #check count of results greater than zero to traverse
     i=0;
     while [ "$worddef" == null ] && [ "$i" -le "$count" ]; do #iterate till the word is found
- 	 	trans=$(echo $wordresults | jq '.results['$i'].senses[]| select(.translations!=null) |.translations[].text')
+ 	 	trans=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[]| select(.translations!=null) |.translations[].text')
     	if [ "$trans" == "" ] || [ "$trans" == 1 ]; then #fetch word when translation is not found
- 			worddef=$(echo $wordresults | jq '.results['$i'].senses[].definition') #get meaning of the word
+ 			worddef=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[].definition') #get meaning of the word
         fi
     ((i++))
  	done
     ((i--))
- 	wordexample=$(echo $wordresults | jq '.results['$i'].senses[]| select(.examples != null) |.examples[].text') #get corresponding examples with "$i" if exists
+ 	wordexample=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[]| select(.examples != null) |.examples[].text') #get corresponding examples with "$i" if exists
+fi
  
- echo
- echo '================================================================'
- echo "| Definition: $worddef"
+ if [ ! -z "$worddef" ]; then
+	echo
+ 	echo '================================================================'
+ 	echo "| Definition: $worddef"
 
  	if [ ! -z "$wordexample" ]; then #check if the variable is set and not empty
  		echo "| Example   : $wordexample"
  	else
  		echo "| Example   : No example found"
- 	fi
 
  echo '================================================================'
  echo
- else
-	 echo Word-not-found
- fi
+	fi
+else
+	echo "Word not found"
+fi
  
