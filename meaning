@@ -3,21 +3,33 @@
 #author     : naveen
 #github-link: https://github.com/nobodyme
 
+#function used to check if there's a valid interent connection
 checkInternet()
 {
-  echo -e "GET http://google.com HTTP/1.0\n\n" | nc google.com 80 > /dev/null 2>&1 # query google with a get request
-  if [ $? -eq 0 ]; then #check if the output is 0, if so no errors have occured and we have connected to google successfully
-    return 0
-  else
-    echo "Error: no active internet connection" >&2 #sent to stderr
-    return 1
-  fi
+	echo -e "GET http://google.com HTTP/1.0\n\n" | nc google.com 80 > /dev/null 2>&1 # query google with a get request
+	if [ $? -eq 0 ]; then #check if the output is 0, if so no errors have occured and we have connected to google successfully
+		return 0
+	else
+		echo "Error: no active internet connection" >&2 #sent to stderr
+		return 1
+	fi
 }
 
-fetchword()
+#function used to fetch the json result and set it to variable
+fetchresults()
 {
+	wordresults=$(curl -sX GET --header "Accept: application/json" "http://api.pearson.com/v2/dictionaries/entries?headword=$getword") > /dev/null 2>&1 #fetch results for input word
+	count=$(echo $wordresults | jq '.count') #get count of results
+}
+
+#function used to parse word for meaning
+parseword()
+{
+	worddef=null;
+	trans=1;
 	i=0;
-	while [ "$worddef" == null ] && [ "$i" -le "$count" ]; do #iterate till the word is found
+
+	while [ "$worddef" == null ] && [ "$i" -le "$count" ]; do #iterate till the meaning is found
 		trans=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[]| select(.translations!=null) |.translations[].text')
 	if [ "$trans" == "" ] || [ "$trans" == 1 ]; then #fetch word when translation is not found
 		worddef=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[].definition') #get meaning of the word
@@ -28,9 +40,10 @@ fetchword()
 	wordexample=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[]| select(.examples != null) |.examples[].text') #get corresponding examples with "$i" if exists
 }
 
+#function used to print meaning
 printmeaning()
 {
-	if [ ! -z "$worddef" ]; then
+	if [ ! -z "$worddef" ]; then #check if the meaning is not empty
 		echo
 	 	echo '================================================================'
 	 	echo "| Definition: $worddef"
@@ -48,17 +61,15 @@ printmeaning()
  }
 
 
-checkInternet || exit 1 #if no connection exit
+checkInternet || exit 1 #check if there's a valid connection or exit
 
 getword=$1+$2+$3 #get 3 parameter as input
-wordresults=$(curl -sX GET --header "Accept: application/json" "http://api.pearson.com/v2/dictionaries/entries?headword=$getword") > /dev/null 2>&1 #fetch results for input word
-count=$(echo $wordresults | jq '.count')
-worddef=null;
-trans=1;
+
+fetchresults #fetch json
 
 if [ "$count" -gt 0 ]; then #check count of results greater than zero to traverse
-	fetchword
-	printmeaning
+	parseword #parse for meaning
+	printmeaning #print meaning
 else
 	echo "Word-not-found"
 fi
