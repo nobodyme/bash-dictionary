@@ -22,8 +22,8 @@ fetchresults()
 	count=$(echo $wordresults | jq '.count') #get count of results
 }
 
-#function used to parse word for meaning
-parseword()
+#function used to parse result for meaning
+parseresult()
 {
 	worddef=null;
 	trans=1;
@@ -37,6 +37,7 @@ parseword()
 	((i++))
 	done
 	((i--))
+ 	worddef=$(echo $worddef | jq 'if type=="array" then .[0] else . end') #check if word meaning is array or object and return first element of array or object
 	wordexample=$(echo $wordresults | jq '.results['$i']| select(.senses!=null) |.senses[]| select(.examples != null) |.examples[].text') #get corresponding examples with "$i" if exists
 }
 
@@ -68,7 +69,7 @@ getword=$1+$2+$3 #get 3 parameter as input
 fetchresults #fetch json
 
 if [ "$count" -gt 0 ]; then #check count of results greater than zero to traverse
-	parseword #parse for meaning
+	parseresult #parse for meaning
 	printmeaning #print meaning
 else
 	echo "Word-not-found"
