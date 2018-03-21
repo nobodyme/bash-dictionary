@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# Simple-Bash
+# Bash-Dictionary
 
 <img src="https://github.com/exercism/bash/blob/master/img/icon.png" height="250px" width="250px">
 
