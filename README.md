@@ -1,11 +1,14 @@
 
 <div align="center">
 
-# Bash-Dictionary
+# Bash-Dictionary (archived)
 
 <img src="https://github.com/exercism/bash/blob/master/img/icon.png" height="250px" width="250px">
 
-A bash script which incoporates a dictionary in the terminal using an online API
+A bash script which incoporates a dictionary in the terminal using Paerson API </br>
+
+Archiving the repository, since the existing API is no longer available.
+<br>Will update it when sufficient time is available.
 
 </div>
 
@@ -35,19 +38,11 @@ Inspired by: [Bash-Snippets](https://github.com/alexanderepstein/Bash-Snippets/b
   - Then cd into the directory: `cd simple-bash`
   - Run the install script with
   `./install.sh`
-  
+
 ## Uninstalling
 
 Run the uninstall script: `./uninstall.sh`
 
 ## License
 
-MIT License
-
-Copyright (c) 2017 Naveen
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+[MIT License](https://opensource.org/licenses/MIT)
